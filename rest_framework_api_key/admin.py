@@ -16,7 +16,7 @@ _SECRET_KEY_MESSAGE = (
 class APIKeyAdmin(admin.ModelAdmin):
     """Admin panel for API keys."""
 
-    list_display = ("client_id", "created", "revoked")
+    list_display = ("client_id", "created", "revoked", "user")
     list_filter = ("created", "revoked")
     readonly_fields = ("token", "secret_key_message")
     search_fields = ("id", "client_id")
@@ -44,6 +44,7 @@ class APIKeyAdmin(admin.ModelAdmin):
         if not obj.pk:
             # If the object is being created, generate its token.
             secret_key = assign_token(obj)
+            obj.user = request.user
             obj.save()
             message = _SECRET_KEY_MESSAGE.format(
                 client_id=obj.client_id, secret_key=secret_key

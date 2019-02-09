@@ -2,8 +2,11 @@
 
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.contrib.auth import get_user_model
+
 
 from .crypto import assign_token
+
 
 
 class APIKeyManager(models.Manager):
@@ -45,6 +48,7 @@ class APIKey(models.Model):
         ),
     )
     revoked = models.BooleanField(blank=True, default=False)
+    user = models.ForeignKey(get_user_model(), on_delete='CASCADE')
 
     class Meta:  # noqa
         ordering = ("-created",)
