@@ -48,7 +48,7 @@ class APIKey(models.Model):
         ),
     )
     revoked = models.BooleanField(blank=True, default=False)
-    user = models.ForeignKey(get_user_model(), on_delete='CASCADE')
+    user = models.ForeignKey(get_user_model(), on_delete='CASCADE', blank=True, null=True)
 
     class Meta:  # noqa
         ordering = ("-created",)
